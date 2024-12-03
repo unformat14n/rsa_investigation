@@ -1,0 +1,917 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="./style.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+        />
+        <!-- KaTeX JavaScript -->
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+        ></script>
+        <!-- KaTeX Auto-render Extension -->
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        ></script>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+            integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+            crossorigin="anonymous"
+        />
+        <title>RSA Cryptosystem</title>
+    </head>
+    <body class="light">
+        <main id="content">
+            <div class="split">
+                <img src="./logo.webp" alt="" class="img-box" />
+                <div class="names">
+                    <h1>RSA Cryptosystem</h1>
+                    <h2>Number Theory and Math Behind it</h2>
+                </div>
+            </div>
+            <div>
+                <p>
+                    By: <br /><em>Jordana E. Puentes Hidalgo </em><br /><em
+                        >Ian M. Zeledón Perez</em
+                    >
+                    <br /><em>Kenneth A. Herrera Mendoza</em>
+                </p>
+            </div>
+            <hr />
+            <div class="abstract">
+                <h2>Abstract</h2>
+                <p>
+                    As one of the most widely used cryptosystems, RSA has a rich
+                    history rooted in the evolution of cryptography, the
+                    practice of encrypting text so it cannot be understood by
+                    anyone other than the intended recipient (Calderbank, 2007).
+                    From early times, secrecy has been essential for those who
+                    wish to keep sensitive information restricted to a specific
+                    person or group.
+                </p>
+                <p>
+                    In 1977, RSA was developed by three mathematicians, Ron
+                    Rivest, Adi Shamir, and Len Adleman, with the name RSA
+                    derived from their initials (Tesly, 2024). RSA emerged as
+                    computing technology was evolving, bringing new threats that
+                    older encryption systems could no longer withstand. RSA
+                    played a key role in strengthening security by protecting
+                    data from increasingly advanced attacks.
+                </p>
+                <p>
+                    Unlike many earlier encryptions systems that required a
+                    “securely exchanged” key for both encryption and decryption,
+                    RSA introduced a public-key cryptographic method that did
+                    not require the exchange of a secret key between parties
+                    (National Investors Hall of Fame, n.d.). RSA’s security is
+                    based on the difficulty of solving certain mathematical
+                    problems, specifically the challenge of factoring large
+                    integers, which remains a significant barrier to
+                    unauthorized decryption
+                </p>
+            </div>
+
+            <div class="bblock">
+                <h2>Background</h2>
+                <p>
+                    During the 1970s, cryptographers faced the challenge of
+                    designing a function difficult to invert. Ron Rivest and Adi
+                    Shamir, two computer scientists that worked at MTI, proposed
+                    many functions but none of them were entirely convincing. To
+                    strenghten their work, they teamed up with Leonard Adelman,
+                    a brilliant mathematician, whose role was to test their
+                    functions rigorously, uncovering potential weaknesses and
+                    identifying any possible backdoors (weaknesses). They went
+                    from knapsack-based to permutation polynomials, but nothing
+                    seemed to work. During most of the time, they thought that
+                    they were trying to create the impossible! In April 1977,
+                    they went to the house of a student and filled their heads
+                    with a good bottle of wine and returned to their homes
+                    around midnight. Rivest, not able to find the path to the
+                    field of dreams, laid on the couch with a math textbook and
+                    started thinking about a one-way function. After a while, a
+                    lightbulb turned on inside his head and by daylight, he had
+                    almost a completed paper ready. At the first page, the three
+                    names: R.L. Rivest, A. Shamir, and L. Adelman. With that,
+                    the RSA (just like the order of the names on the document)
+                    algorithm was ready to conquer the internet.
+                </p>
+            </div>
+            <div class="wblockr">
+                <h2>Objectives</h2>
+                <p>
+                    RSA is widely used nowadays. Different secure systems like
+                    OpenSSL, SSH, and other cryptography libraries use this
+                    code. RSA is also widely used in web browsers, email chats,
+                    VPNs, and other communication channels. The objectives for
+                    this project are:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Demonstrate</strong> how the discovery of the
+                        RSA code innovated the way in which messages were sent
+                        through the internet and led to a new generation of tech
+                        innovations regarding security and messaging.
+                    </li>
+                    <li>
+                        <strong>Define</strong> the mathematics behind the RSA,
+                        the number theory and central idea for the public
+                        cryptosystem. Throughout this document, we want to point
+                        out the critical role that mathematics represents in
+                        RSA, including encryption procedure, and deciphering
+                        algorithms using an identity due to Euler and Fermat.
+                    </li>
+                </ul>
+            </div>
+            <div class="no-bg">
+                <h2>Public Cryptosystems</h2>
+                <p>
+                    A <strong>public cryptosystem</strong> is a secure system
+                    where each user places in a public file an encryption
+                    procedure or a file contained in a directory that gives the
+                    encryption procedure of each user. The user keeps in secret
+                    the details for the corresponding decryption procedure.
+                    Let’s define public file that contains the encryption
+                    procedure as E and the decryption secret details as D. These
+                    two variables are going to be defined as mathematical
+                    functions, and they fulfill the following properties:
+                </p>
+                <ol type="a">
+                    <li>
+                        Deciphering the enciphered form of a message M yields M.
+                        Formally,<br />
+                        <center>① <span class="eq">D(E(M)) = M</span></center>
+                    </li>
+                    <li>
+                        By publicly revealing E, the user does not reveal any
+                        easy way to compute D. This means that in practice, the
+                        user is the only one that can decrypt the messages that
+                        were encrypted with E, or compute D efficiently.
+                    </li>
+                    <li>
+                        If a message M is first deciphered and then enciphered,
+                        M is the result. Formally,
+                        <center>② <span class="eq">E(D(M)) = M</span></center>
+                    </li>
+                </ol>
+                <p>
+                    An encryption or decryption procedure consists typically of
+                    a
+                    <em>general method</em> and an <em>encryption key</em>. The
+                    result of the calling the general method with the encryption
+                    key is the enciphered version of a message M, that we will
+                    define as C (ciphertext). Everyone can use the same general
+                    method; how much secure the method is will rely on the
+                    security of the key.
+                </p>
+                <p>
+                    If function E that satisfies (a)-(c) is what Diffie and
+                    Hellman defined as “trap-door one-way function”. The
+                    property (c) is satisfied when the number of messages M that
+                    need to be tested so that E(M) = C, if a user reveals E, is
+                    so large that makes the approach impractical.
+                </p>
+                <p>
+                    To illustrate this process, we suppose that person A and
+                    person B are two users of a public-key cryptosystem. How can
+                    person B send a private message M to person A in the
+                    public-key cryptosystem? First, he needs to retrieve the
+                    decryption procedure E<sub>A</sub> (or the file containing
+                    the decryption details of person A’s public file). Then he
+                    needs to send her the enciphered message E<sub>A</sub>(M).
+                    Person A can decipher the message by computing
+                    D<sub>A</sub>(E<sub>A</sub>(M)) = M. To response, she can
+                    encipher a message by retrieving the decryption procedure
+                    E<sub>B</sub>
+                    and applying them to another message M.
+                </p>
+                <p>
+                    Notice that no private transactions were established nor
+                    needed between A and B to establish communications. The only
+                    “set up” needed is that each user needs to place his
+                    enciphering algorithm in the public file.
+                </p>
+            </div>
+            <div class="wblockr">
+                <h2>Algorithm</h2>
+                <p>
+                    To encrypt a message M with the RSA method, a public
+                    encryption key <span class="eq">(n, z)</span> is needed.
+                    Here e and n are a pair of positive integers.
+                </p>
+                <p>
+                    First, the message needs to be represented in an integer
+                    between <span class="eq">0</span> and
+                    <span class="eq">z – 1</span>. (A large message can be
+                    broken in different blocks of integers). The encryption of
+                    the message is performed by raising it to the
+                    <span class="eq">nth</span> power modulo
+                    <span class="eq">n</span>, mathematically:
+                </p>
+                <center>
+                    <span class="eq">M<sup>n</sup> mod z</span>
+                </center>
+                <p>
+                    The enciphered message <span class="eq">C</span> will be the
+                    remainder when <span class="eq">M<sup>n</sup></span> is
+                    divided by <span class="eq">z</span>. To decrypt the
+                    ciphertext <span class="eq">C</span>, it needs to be raised
+                    to another power <span class="eq">d</span>, modulo
+                    <span class="eq">n</span>.
+                </p>
+                <p>
+                    Thus, the encryption and decryption algorithms E and D are:
+                </p>
+                <center>
+                    <span class="eq">E(M) ≡ M<sup>n</sup> mod z</span>
+                    <br />
+                    <span class="eq">D(C) ≡ C<sup>d</sup> mod z</span>
+                </center>
+                <p>
+                    To illustrate this process of
+                    <strong>modular exponentiation</strong> we have designed a
+                    process in the form a pseudocode (an algorithm) for this
+                    function. Here it is:
+                </p>
+                <pre>
+                    Input: M, n, z
+                    Output: C
+
+                    modularExponentiation(M, n, z) {
+                        result = 1
+                        M = M mod z
+                        while (n &gt; 0) {
+                            if (n mod 2 == 1) {
+                                result = (result * M) mod z
+                            }
+                            M = M<sup>2</sup> mod z
+                            n = &LeftFloor;n / 2&RightFloor;
+                        }
+                        return result
+                    }
+                </pre>
+                <p>
+                    These algorithms will be represented as tables. For modular
+                    exponentiation the table will have the headers: result, M, n
+                    , n mod 2, result mod z, m<sup>2</sup> mod z.
+                </p>
+                <p>
+                    The encryption key pair (n, z) works as a pair of positive
+                    integers and similarly to them, the decryption key is the
+                    pair (s, z). Each user makes his encryption key pair public
+                    and keeps their decryption key private.
+                </p>
+                <p>
+                    The integer z is going to be represented as the product of
+                    two random primes (generally large) p and q.
+                </p>
+                <center>
+                    <span class="eq">z = p ⋅ q</span>
+                </center>
+                <p>
+                    Although you make n public, the factors p and q will remain
+                    as a secret due to the enormous difficulty of factoring n.
+                    This also hides the way that d can be derived from e.
+                </p>
+                <p>
+                    Then, the number z is defined as a large, random integer
+                    which is relatively prime to (p – 1) • (q – 1). We will
+                    refer to (p – 1) • (q – 1) as φ later. To be relatively
+                    prime means s satisfies that the Greatest Common Factor of d
+                    and (p – 1) • (q – 1) is 1. Formally,
+                </p>
+                <center>
+                    <span class="eq">gcf(s, (p-1)(q-1)) = 1</span>
+                </center>
+                <p>
+                    Given two integers a and b, the integer n is a linear
+                    combination of a and b if there exist s, t integers such
+                    that <span class="eq">n = as + bt</span>. Then, from these
+                    two numbers, the gcf(a, b) is the smallest positive integer
+                    that can be expressed as a linear combination of a and b,
+                    that is <span class="eq">gcf(a, b) = as + bt</span>.
+                </p>
+                <p>
+                    To find these numbers, we can use the Extended Euclidean
+                    Algorithm. This algorithm is a generalization of the
+                    Euclidean Algorithm that finds the greatest common divisor
+                    of two integers a and b. The algorithm also finds the
+                    coefficients of Bézout’s identity, which are the integers s
+                    and t that satisfy the equation
+                    <span class="eq">as + bt = gcf(a, b)</span>.
+                </p>
+                <pre>
+                    Input: a, b as integers
+                    Output: A list [gcf(a, b), s, t]
+
+                    extendedGCF(a, b) {
+                        if (b == 0) return [a, 1, 0]
+                        r = a mod b
+                        q = &LeftFloor;a/b&RightFloor;
+                        g = extendedGCF(b, r)
+                        s = g[2]
+                        t = g[1] - g[2] &times; q
+
+                        return [g[0], s, t]
+                    }
+                </pre>
+                <p>The calculations for t and s are the following:</p>
+                <ul>
+                    <li>s = t' (t' means previous value of t)</li>
+                    <li>
+                        t = s' - t' &times; q (s' is previous value of s and q
+                        stands for quotient )
+                    </li>
+                </ul>
+                <p>The values for t and s are calculated from bottom to top.</p>
+                <p>
+                    Note that <span class="eq">gcf(a,b) ≡ as mod b</span>. And,
+                    if <span class="eq">gcf(a, b) = 1</span>, we can define the
+                    <strong>modular inverse</strong>
+                    as follows:
+                </p>
+                <p>
+                    If a and b are relative primes, then, the Extended Euclid's
+                    algorithm states that there exists an integer s that 0 &lt;
+                    s &lt; b such as <span class="eq">as ≡ mod 1</span>. This
+                    number s will be known as the modular inverse of a modulo b.
+                </p>
+                <p>
+                    These two algorithms are used in order to cipher and
+                    decipher. The modular exponentiation is works both ways and
+                    the extended Euclid's works to find s.
+                </p>
+            </div>
+            <div class="no-bg">
+                <h2>How to Find Prime Numbers?</h2>
+                <h3>Prime Number Theorem and Random Primes</h3>
+                <p>
+                    The core of the RSA cryptosystem it’s strongly related to
+                    prime numbers and factorization. Its security relies on the
+                    fact that large prime numbers are difficult to find and
+                    factorize. Each user privately gets assigned two large
+                    random numbers that we will call p and q to create their own
+                    encryption and decryption keys.
+                </p>
+                <p>
+                    To find a 100-digit “random” prime number, Richie, Samir,
+                    and Adleman generated 100-digit random odd numbers until a
+                    prime is found. They took the fundamentals of the Prime
+                    Number Theorem, which states that there are approximately
+                    <span class="math">\[\frac{x}{ln (x)}\]</span>
+                    prime numbers less than or equal to x, to calculate an idea
+                    of the number of iterations that need to be tested before a
+                    prime is found. In simpler words, the density of primes near
+                    a large number x is roughly:
+                    <span class="math">\[\frac{1}{ln (x)}\]</span>
+                </p>
+                <p>
+                    Since the approach is to find numbers with 100 digits, the
+                    value of x will be 10<sup>100</sup>. Let’s say we want to
+                    find a number for p, the formula will be equal to 1ln
+                    (10<sup>100</sup>), the bottom part can be written as
+                    <span class="eq">100ln(10)</span> and this computes to
+                    approximately 230. Now, we are only trying odd numbers, this
+                    means that we’re trying about half of the numbers, so the
+                    solution must be divided by two, finally giving the number
+                    115. Thus, on average, about
+                    <strong>115 numbers</strong> need to be tested before
+                    finding a prime.
+                </p>
+                <h3>Primality and Solovay-Strassen Test</h3>
+                <p>
+                    We define the word <em>primality</em> as the condition of
+                    being a prime number. This concept is important in order to
+                    check if the numbers generated before are primes or not. To
+                    achieve this, Richie and company used the Solovay-Strassen
+                    algorithm. This test is a probabilistic algorithm; it first
+                    picks a random number a between 1 and b - 1, it computes the
+                    <strong>Greatest Common Factor</strong> for a and b and
+                    tests two propositions:
+                </p>
+                <ul>
+                    <li>
+                        <center><span class="eq">gcf(a, b) = 1</span></center>
+                    </li>
+                    <li>
+                        <div class="math">
+                            \[ J(a, b) = a^{\frac{b-1}{2}} mod b \]
+                        </div>
+                        J stands for the Jacobi symbol, it helps to identify
+                        compositeness
+                    </li>
+                </ul>
+                <p>
+                    The algorithm tries several random choices of a. If it
+                    passes for many a, it is <strong>likely prime</strong>.
+                    Here’s the pseudocode for the function (Note that Jacobi is
+                    also defined after):
+                </p>
+                <pre>
+                    Input: b (integer), k (number of iterations)
+                    Output: True if b is prime, False if b is composite
+
+                    SolovayStrassen(b, k) {
+                        if (b <= 2) return False
+                        if (b mod 2 == 0) return False
+                        a = 1
+                        for i=1 to k {
+                            a = random(a, b - 1)
+                            if (gcd(a, b) != 1) {
+                                return False
+                            }
+                            if (J(a, b) != a<sup><sup>b-1</sup>/<sub>2</sub></sup>mod b) {
+                                return False
+                            }
+                        }
+                        return True
+                    }
+                </pre>
+            </div>
+            <div class="wblock">
+                <h2>Demonstration</h2>
+                <p>
+                    To demonstrate the RSA cryptosystem, we will use the
+                    following example. Let’s say that we have two users, Alice
+                    and Bob. Alice wants to send a message to Bob, but she wants
+                    to keep it secret. She will use the RSA cryptosystem to
+                    encrypt the message. Bob will use the RSA cryptosystem to
+                    decrypt the message.
+                </p>
+                <p>
+                    Let’s consider the case p = 47, q = 59, z = p • q = 47 • 59
+                    = 2773, and d = 157. Then φ = (p – 1) • (q – 1) = 46 • 58 =
+                    2668 and n = 17. Let’s first encode the message HI as
+                    follows:
+                </p>
+                <p>
+                    Each letter of the alphabet will be represented as a pair of
+                    numbers starting with blank = 00. This way, A = 01, B = 02,
+                    C = 03, D = 04, …, Z = 26. Then, the message HI will be
+                    represented as: 0809 (809 without the leading zero).
+                </p>
+                <p>To cipher the message, we calculate the expression:</p>
+                <div class="math">\[M^{e} mod(n) \\ 809^{17} mod(2773)\]</div>
+                <p>
+                    To calculate, we build a table with the headers result, M,
+                    n, n mod 2, result mod z, M<sup>2</sup> mod z. Result will
+                    be set to 1 initially, the algorithm will stop until n
+                    reaches 1. Result will change if n mod 2 is 1 and it will be
+                    the actual value multiplied by M. The value of e will be
+                    divided by 2 and rounded to the smallest integer.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>result</th>
+                            <th>M</th>
+                            <th>n</th>
+                            <th>n mod 2</th>
+                            <th>result mod n</th>
+                            <th>M<sup>2</sup> mod n</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>809</td>
+                            <td>17</td>
+                            <td>1</td>
+                            <td>809</td>
+                            <td>53</td>
+                        </tr>
+                        <tr>
+                            <td>809</td>
+                            <td>53</td>
+                            <td>8</td>
+                            <td>0</td>
+                            <td>809</td>
+                            <td>36</td>
+                        </tr>
+                        <tr>
+                            <td>809</td>
+                            <td>36</td>
+                            <td>4</td>
+                            <td>0</td>
+                            <td>809</td>
+                            <td>1296</td>
+                        </tr>
+                        <tr>
+                            <td>809</td>
+                            <td>1296</td>
+                            <td>2</td>
+                            <td>0</td>
+                            <td>809</td>
+                            <td>1951</td>
+                        </tr>
+                        <tr>
+                            <td>809</td>
+                            <td>1951</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>
+                                <span class="emphasis"
+                                    >809⋅1951≡522 mod 2773</span
+                                >
+                            </td>
+                            <td>1845</td>
+                        </tr>
+                        <tr>
+                            <td><span class="emphasis">522</span></td>
+                            <td>1845</td>
+                            <td>0</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Thus, the ciphertext is 522 (or 05 = E and 22 = V) or EV.</p>
+                <p>
+                    To decipher, we need to find <span class="eq">s</span>,
+                    using the algorithm for the Extended Euclidean Algorithm.
+                    The algorithm will take the values of n and phi, in this
+                    case 17 and 2668. The table for this algorithm will have the
+                    headers: a, b, q, r, s, t.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>a</th>
+                            <th>b</th>
+                            <th>q</th>
+                            <th>r</th>
+                            <th>s</th>
+                            <th>t</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>17</td>
+                            <td>2668</td>
+                            <td>0</td>
+                            <td>17</td>
+                            <td>157</td>
+                            <td>-1</td>
+                        </tr>
+                        <tr>
+                            <td>2668</td>
+                            <td>17</td>
+                            <td>156</td>
+                            <td>16</td>
+                            <td>-1</td>
+                            <td>157</td>
+                        </tr>
+                        <tr>
+                            <td>17</td>
+                            <td>16</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>-1</td>
+                        </tr>
+                        <tr>
+                            <td>16</td>
+                            <td>1</td>
+                            <td>16</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>–</td>
+                            <td>–</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    From here, we check if the value found for s is a linear
+                    combination by calculating:
+                </p>
+                <div class="math">
+                    \[ as + bt = 1 \Rightarrow 17(157) + 2668(-1) = 1 \]
+                </div>
+                <p>
+                    The value of s is 157, which is the value of d. To decipher
+                    the message, we calculate the expression:
+                </p>
+                <div class="math">\[ C^{d} mod(n) \\ 522^{157} mod(2773)\]</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>result</th>
+                            <th>M</th>
+                            <th>d</th>
+                            <th>d mod 2</th>
+                            <th>result mod n</th>
+                            <th>M<sup>2</sup> mod n</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>522</td>
+                            <td>157</td>
+                            <td>1</td>
+                            <td>522</td>
+                            <td>730</td>
+                        </tr>
+                        <tr>
+                            <td>522</td>
+                            <td>730</td>
+                            <td>78</td>
+                            <td>0</td>
+                            <td>522</td>
+                            <td>484</td>
+                        </tr>
+                        <tr>
+                            <td>522</td>
+                            <td>484</td>
+                            <td>39</td>
+                            <td>1</td>
+                            <td><b>522⋅484≡305 mod 2773</b></td>
+                            <td>1324</td>
+                        </tr>
+                        <tr>
+                            <td>305</td>
+                            <td>1324</td>
+                            <td>19</td>
+                            <td>1</td>
+                            <td><b>305⋅1324≡1735 mod 2773</b></td>
+                            <td>440</td>
+                        </tr>
+                        <tr>
+                            <td>1735</td>
+                            <td>440</td>
+                            <td>9</td>
+                            <td>1</td>
+                            <td><b>1735⋅440≡825 mod 2773</b></td>
+                            <td>2263</td>
+                        </tr>
+                        <tr>
+                            <td>825</td>
+                            <td>2263</td>
+                            <td>4</td>
+                            <td>0</td>
+                            <td>825</td>
+                            <td>2211</td>
+                        </tr>
+                        <tr>
+                            <td>825</td>
+                            <td>2211</td>
+                            <td>2</td>
+                            <td>0</td>
+                            <td>825</td>
+                            <td>2495</td>
+                        </tr>
+                        <tr>
+                            <td>825</td>
+                            <td>2495</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td><b>825⋅2495≡809 mod 2773</b></td>
+                            <td>2413</td>
+                        </tr>
+                        <tr>
+                            <td><span class="emphasis">809</span></td>
+                            <td>2413</td>
+                            <td>0</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    Getting as the result the same number that we originally
+                    had: <strong>809 (08 = "H", 09 = "I").</strong>
+                </p>
+            </div>
+            <div class="bblock">
+                <h2>Final Thoughts</h2>
+                <h3>Importance</h3>
+                <p>
+                    The RSA method has been instrumental in enhancing the
+                    security of information over the years through its robust
+                    encryption and decryption mechanisms. Developed as a
+                    public-key cryptography system, RSA allows secure data
+                    transmission by enabling encrypted communication between two
+                    parties without requiring them to share a private key
+                    beforehand. Its application has extended across a broad
+                    range of fields, becoming a cornerstone in securing digital
+                    communications and data exchange.
+                </p>
+                <p>
+                    One of the most notable uses of RSA is in the protection of
+                    sensitive data in cloud computing environments. Many cloud
+                    service providers, including major platforms like Google’s G
+                    Suite, rely on variations of RSA for user authentication and
+                    data protection. Similarly, RSA has been adopted in secure
+                    messaging applications such as WhatsApp, where it plays a
+                    vital role in ensuring end-to-end encryption, allowing users
+                    to communicate privately without fear of unauthorized
+                    interception.
+                </p>
+                <p>
+                    Beyond these specific applications, RSA serves as a critical
+                    component of internet protocols like SSL/TLS, which underpin
+                    the secure connections that facilitate e-commerce, online
+                    banking, and other web-based transactions. RSA’s
+                    implementation in key exchange protocols has also been
+                    foundational, enabling the establishment of secure channels
+                    for transmitting sensitive information.
+                </p>
+                <p>
+                    Furthermore, RSA, alongside the Diffie-Hellman key exchange
+                    algorithm, laid the groundwork for modern cryptography
+                    systems. These algorithms revolutionized the field by
+                    introducing public-key cryptography, a breakthrough that
+                    addressed limitations of symmetric encryption systems. The
+                    principles established by RSA continue to influence the
+                    development of contemporary encryption techniques, ensuring
+                    secure communication in an increasingly digital world. Its
+                    impact resonates not only in securing data but also in
+                    inspiring future innovations in cryptographic methodologies.
+                </p>
+                <h3>Downfall</h3>
+                <p>
+                    The RSA algorithm, while foundational in the field of
+                    cryptography, is increasingly recognized as a relatively
+                    slow algorithm compared to more modern cryptographic
+                    techniques. Its reliance on resource-intensive mathematical
+                    operations makes it less efficient, especially in
+                    environments requiring high-speed encryption and decryption
+                    processes.
+                </p>
+                <p>
+                    Advancements in computing technology have also exposed
+                    vulnerabilities in RSA's security framework. For example,
+                    quantum computing poses a significant threat to RSA, as
+                    quantum algorithms like Shor’s algorithm can factorize the
+                    large numbers on which RSA's security is based in a fraction
+                    of the time required by classical computing. This potential
+                    for rapid decryption raises serious concerns about the
+                    long-term reliability of RSA in safeguarding sensitive
+                    information.
+                </p>
+                <p>
+                    Additionally, the increasing sophistication of cryptographic
+                    attacks, such as those leveraging the General Number Field
+                    Sieve (GNFS) method, has further undermined RSA’s appeal.
+                    GNFS is currently the most efficient classical algorithm for
+                    factoring large integers, making it a formidable tool for
+                    breaking RSA encryption. This highlights the growing
+                    challenge of maintaining RSA’s robustness against
+                    increasingly lethal attack methods
+                </p>
+                <p>
+                    To address these challenges, numerous variants of RSA have
+                    been proposed in recent years. These adaptations aim to
+                    enhance its security and performance by introducing
+                    innovations to its mathematical structure or operational
+                    efficiency. However, even with these improvements, the
+                    competition posed by alternative cryptographic methods
+                    continues to grow.
+                </p>
+                <p>
+                    One such competitor is the Elliptic Curve Cryptography (ECC)
+                    algorithm, which offers equivalent security to RSA but with
+                    significantly smaller key sizes and reduced computational
+                    requirements. This makes ECC more suitable for modern
+                    applications where efficiency and resource conservation are
+                    critical, such as in mobile devices and IoT systems.
+                </p>
+                <p>
+                    The decline in RSA's popularity is also tied to the
+                    extensive computational resources it demands, making it less
+                    appealing in an era that prioritizes speed, scalability, and
+                    energy efficiency. As a result, RSA is increasingly being
+                    replaced by cryptographic systems that are not only faster
+                    and more efficient but also better equipped to withstand the
+                    evolving landscape of cyber threats.
+                </p>
+            </div>
+            <div class="wblockr">
+                <h2>Conclusion</h2>
+                <p>
+                    RSA has been a cornerstone in the evolution of cryptography,
+                    introducing asymmetric encryption that allows secure
+                    communication between parties without the need for a shared
+                    secret key. This revolutionary concept paved the way for the
+                    development of secure systems capable of transmitting
+                    sensitive information across open, untrusted networks. As
+                    the foundation of modern internet security, RSA is essential
+                    in protecting a wide range of digital activities, including
+                    online transactions, email communications, virtual private
+                    networks (VPNs), and secure web browsing (HTTPS).
+                </p>
+                <p>
+                    Despite its monumental success, RSA faces increasing
+                    pressure from advancements in computing, particularly the
+                    emergence of quantum computing, which poses a potential
+                    threat to the algorithm’s security. Newer and more efficient
+                    algorithms, such as the General Number Field Sieve (GNFS),
+                    have been developed, showing higher performance and offering
+                    more effective alternatives. Additionally, the Elliptic
+                    Curve Cryptography (ECC) method has emerged as a highly
+                    efficient competitor, offering similar levels of security
+                    with smaller key sizes, leading to faster performance and
+                    reduced resource consumption.
+                </p>
+                <p>
+                    Although the RSA algorithm requires significant
+                    computational resources, it continues to play a central role
+                    in hybrid cryptographic systems, which combine RSA with more
+                    modern techniques to enhance both security and efficiency.
+                    As the landscape of cryptography evolves, RSA’s foundational
+                    principles continue to guide the development of newer
+                    methods and influence cryptographic standards, maintaining
+                    its relevance even as newer technologies and algorithms seek
+                    to address its limitations.
+                </p>
+            </div>
+
+            <h2>References</h2>
+            <ul>
+                <li>
+                    <a href="https://people.csail.mit.edu/rivest/Rsapaper.pdf"
+                        >https://people.csail.mit.edu/rivest/Rsapaper.pdf</a
+                    >
+                </li>
+                <li>
+                    <a
+                        href="https://dspace.mit.edu/bitstream/handle/1721.1/100853/18-304-spring-2006/contents/projects/rsa_robles.pdf"
+                        >https://dspace.mit.edu/bitstream/handle/1721.1/100853/18-304-spring-2006/contents/projects/rsa_robles.pdf</a
+                    >
+                </li>
+                <li>
+                    <a
+                        href="https://www.researchgate.net/publication/306215546_RSA_encryption_algorithm_-_A_survey_on_its_various_forms_and_its_security_level"
+                        >https://www.researchgate.net/publication/306215546_RSA_encryption_algorithm_-_A_survey_on_its_various_forms_and_its_security_level</a
+                    >
+                </li>
+                <li>
+                    <a href="https://arxiv.org/pdf/1506.04265"
+                        >https://arxiv.org/pdf/1506.04265</a
+                    >
+                </li>
+            </ul>
+        </main>
+
+        <script>
+            /*****************************************************************************
+             * KATEX
+             ****************************************************************************/
+            document.addEventListener("DOMContentLoaded", function () {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true },
+                    ],
+                });
+            });
+        </script>
+        <script>
+            function trimBlock(block) {
+                const lines = block.innerHTML.split("\n");
+
+                // Find the minimum indentation
+                let minIndent = null;
+                lines.forEach((line) => {
+                    if (line.trim().length > 0) {
+                        const indent = line.search(/\S|$/);
+                        if (minIndent === null || indent < minIndent) {
+                            minIndent = indent;
+                        }
+                    }
+                });
+
+                // Remove the minimum indentation
+                const trimmedLines = lines.map((line) => {
+                    return line.substring(minIndent);
+                });
+
+                block.innerHTML = trimmedLines.join("\n").trim();
+            }
+
+            const pres = document.querySelectorAll("pre");
+            for (const block of pres) {
+                trimBlock(block);
+                const className = block.classList.contains("line-numbers");
+                if (!className) continue;
+                trimBlock(block);
+            }
+        </script>
+    </body>
+</html>

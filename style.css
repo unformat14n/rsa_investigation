@@ -1,0 +1,215 @@
+.light {
+    --header-bg: #0d2f6a;
+    --header-fg: #ffffff;
+    --subhdr-fg: #6793df;
+    --txt-shadow: rgba(96, 154, 199, 0.6);
+    --bblock: #0d2f6a;
+    --bblock-hdr: white;
+    --bblock-shadow: #6793df;
+    --top: #1370bb;
+    --bot: #b8ddf8;
+    --wblockt: #ffffff;
+    --wblockb: #dee8ff;
+    --wblock-txt: #150d56;
+    --emphasis: #ffd75f;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    /* background-color: var(--bg); */
+    line-height: 1.2em;
+    /* color: var(--fg); */
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    justify-content: center;
+    justify-items: center;
+    transition: all 0.25s ease-in;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(to bottom left, var(--top), var(--bot));
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+main#content {
+    max-width: 800px;
+    min-width: 20px;
+    margin: 1.5em;
+    transition: all 0.25s ease-in;
+}
+
+div.split {
+    margin-left: -5em;
+    display: flex;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    align-items: center;
+    transition: all 0.25s ease-in;
+    color: var(--header-fg);
+}
+
+div.split > img {
+    max-width: 20%;
+    margin-left: 1em;
+    padding-left: 0.5em;
+    padding: 1em;
+    background: var(--header-bg);
+    border-radius: 50%;
+}
+
+div.split > div.names {
+    border-top-right-radius: 1.5em;
+    border-bottom-right-radius: 1.5em;
+    margin: -2em;
+    background-color: var(--header-bg);
+    line-height: 0.8em;
+    padding-left: 3em;
+    padding-block: 1em;
+    width: 100%;
+    z-index: -4;
+
+    h1 {
+        text-shadow: var(--txt-shadow) 3px 3px;
+        font-size: 3em;
+    }
+
+    h2 {
+        text-shadow: var(--txt-shadow) 3px 3px;
+        color: var(--subhdr-fg);
+    }
+}
+
+div.bblock {
+    background: var(--bblock);
+    /* padding: 1em; */
+    padding-block: 0.5em;
+    text-align: justify;
+
+    h2 {
+        color: var(--bblock);
+        text-shadow: var(--bblock-shadow) 2px 2px;
+        padding-left: 1em;
+        font-size: 1.8em;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        background-color: var(--bblock-hdr);
+        padding-block: 0.5em;
+    }
+
+    h3 {
+        color: var(--bblock);
+        padding-left: 0.6em;
+        color: var(--bblock-hdr);
+        font-size: 1.8em;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    }
+
+    p {
+        padding-inline: 1em;
+        color: var(--header-fg);
+    }
+}
+
+div.wblockr {
+    background: linear-gradient(to bottom, var(--wblockt), var(--wblockb));
+    color: var(--wblock-txt);
+    margin-block: 1em;
+    border-radius: 1em;
+    padding: 0.5em;
+
+    strong {
+        color: var(--wblock-txt);
+    }
+}
+
+div.wblock {
+    background: var(--wblockt);
+    color: var(--wblock-txt);
+    margin-block: 1em;
+    border-radius: 0.25em;
+    padding: 0.5em;
+
+    strong {
+        color: var(--wblock-txt);
+    }
+}
+
+center {
+    margin-block: 0.5em;
+}
+
+span.eq {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 1.2em;
+    font-style: italic;
+    /* color: var(--header-fg); */
+}
+
+div.no-bg {
+    em,
+    strong {
+        color: var(--emphasis);
+    }
+}
+
+pre {
+    margin-left: 5em;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 1.2em;
+}
+
+@media (max-width: 720px) {
+    div.split > img {
+        min-width: 80px;
+        margin-left: 3em;
+    }
+
+    div.split > div.names {
+        padding-left: 2em;
+        h1 {
+            font-size: 1.5em;
+        }
+        h2 {
+            font-size: 1em;
+        }
+    }
+
+    pre {
+        margin-left: 1em;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 1.2em;
+    }
+}
+
+hr {
+    color: white;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+th,
+td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+}
+th {
+    background-color: #f4f4f4;
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.emphasis {
+    font-weight: bold;
+}
